@@ -2,13 +2,13 @@
 Codebase for X-CGD single-cell expression data analysis
 
 analysis_notebook.Rmd contains all code necessary to run the analyses as described in 
-"Autoimmunity-related disease signatures shared across cell type dominate the transcriptional landscape of X-linked CGD"
+__"Autoimmunity-related disease signatures shared across cell type dominate the transcriptional landscape of X-linked CGD"__
 
-Project background - 
+##Project background - 
 
 Data sources - 10X single-cell sequencing of PBMCs and isolated monocytes from peripheral blood of probands and carriers with X-linked chronic granulomatous disease (X-CGD), as well as age- and sex-matched controls (14 male probands, 10 female carriers, and 15 (8 male, and 7 female) controls).
 
-Outline of analysis
+##Outline of analysis
 
 1. Load all required data into environment
 2. Initial quality control - filter out poor quality cells
