@@ -1,4 +1,4 @@
-# XCGD
+# Single-cell sequencing data analysis of X-linked chronic granulomatous disease
 Codebase for X-CGD single-cell expression data analysis
 
 analysis_notebook.Rmd contains all code necessary to run the analyses as described in 
