@@ -718,8 +718,6 @@ pbmc.combined <- FindNeighbors(pbmc.combined, reduction = "pca", dims = 1:10)
 pbmc.combined <- FindClusters(pbmc.combined, resolution = seq(0.1, 0.5, 0.1), random.seed = 42)
 plan("sequential")
 
-save.image(str_c(output.dir, "pbmc_int_workspace_02272022_bckp.RDS"))
-
 gc()
 ```
 
@@ -768,8 +766,6 @@ ElbowPlot(mono.combined)
 mono.combined <- FindNeighbors(mono.combined, reduction = "pca", dims = 1:10)
 mono.combined <- FindClusters(mono.combined, resolution = seq(0.1, 2.0, 0.1), random.seed = 42)
 plan("sequential")
-
-save.image(str_c(output.dir, "post_int_workspace_02272022_bckp.RDS"))
 ```
 
 ***
