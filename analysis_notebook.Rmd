@@ -513,11 +513,7 @@ Heatmap of sample correlation matrix (no clear clustering by sample type) (PBMCs
 cor_cross_smpl <- cor(expr$RNA)
 
 col_fun = colorRamp2(c(0, 0.5, max(cor_cross_smpl)), c("#440154", "#21918c", "#fde725"))
-mean(cor_cross_smpl)
 Heatmap(cor_cross_smpl, name = "Pearson r", col = col_fun) 
-png(filename = str_c(output.dir, "heatmap_corr_pbmc.png"), height = 8, width = 9, units = "in", res = 1200)
-Heatmap(cor_cross_smpl, name = "Pearson r", col = col_fun)
-dev.off()
 ```
 
 __Suppl. Fig. 2(B)__
@@ -526,10 +522,7 @@ Heatmap of sample correlation matrix (no clear clustering by sample type) (isola
 cor_cross_smpl_mono <- cor(expr_monos$RNA)
 
 col_fun = colorRamp2(c(0, 0.5, max(cor_cross_smpl_mono)), c("#440154", "#21918c", "#fde725"))
-mean(cor_cross_smpl_mono)
-png(filename = str_c(output.dir, "heatmap_corr_mono.png"), height = 8, width = 9, units = "in", res = 1200)
 Heatmap(cor_cross_smpl_mono, name = "Pearson r", col = col_fun)
-dev.off()
 ```
 
 __Suppl. Fig. 2(C)__
@@ -1638,10 +1631,8 @@ tmp <- tmp[, used_cell_types]
 
 c_anno <- anno_mark(at = match(terms_to_label, rownames(tmp)), labels = terms_to_label, which = "row")
 
-png(filename = str_c(output.dir, "heatmap_singleton_enrich.png"), height = 8, width = 9, units = "in", res = 1200)
 ComplexHeatmap::Heatmap(-log2(data.matrix(tmp)), cluster_columns = FALSE, col = col_fun, name = "-Log2 adj. p",
                          show_column_dend = FALSE) + rowAnnotation(mark = c_anno)
-dev.off()
 ```
 
 __9. Evaluate expression of cluster-specific signatures in X-CGD carriers (incl. correlation with DHR/NOI scores)__
@@ -2205,7 +2196,7 @@ res.pred.carrier %>% filter(mode == "test") %>% mutate(clust = factor(clust, lev
 
 Calculate similar AUROCs for cross-cluster prediction - i.e. classification of carrier clusters using signatures derived from other proband clusters
 ```{r}
-res.pred.carrier <- data.frame()
+res.pred.carrier.across <- data.frame()
 
 all_samples <- pbmc.mono.female.expr.aggr.corr %>% dplyr::select(smpl, smpl_type) %>% distinct
 
@@ -2241,8 +2232,8 @@ x <- lapply(X = all_used_cell_types, FUN = function(i){
     
     curr.roc.test <- sum_ranks / (p_samples * n_samples) - (p_samples + 1) / (2 * n_samples)
     
-    res.pred.carrier <<- 
-      rbind(res.pred.carrier, data.frame(n_genes = i, n_genes_actual = length(gene.sig.proband), roc = curr.roc.test, mode = "test", 
+    res.pred.carrier.across <<- 
+      rbind(res.pred.carrier.across, data.frame(n_genes = i, n_genes_actual = length(gene.sig.proband), roc = curr.roc.test, mode = "test", 
                                          sig = i, clust = j))
     
   })
@@ -2305,7 +2296,7 @@ __Suppl. Fig. 5(B)__
 
 Plot heatmap of AUROCs of cross-cluster predictions
 ```{r}
-tmp <- res.pred.carrier %>% filter(sig %in% unique(res.pred.carrier$clust)) %>% pivot_wider(id_cols = sig, names_from = clust, values_from = roc) %>% column_to_rownames("sig")
+tmp <- res.pred.carrier.across %>% filter(sig %in% unique(res.pred.carrier.across$clust)) %>% pivot_wider(id_cols = sig, names_from = clust, values_from = roc) %>% column_to_rownames("sig")
 
 col_fun = colorRamp2(c(0.5, max(tmp)), c("steelblue", "salmon"))
 
